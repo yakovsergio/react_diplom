@@ -1,37 +1,86 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ChangeEvent, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+//import { createBrowserHistory } from 'history';
+//import { useDispatch } from 'react-redux';
+
 import './App.css';
-import { ButtonExample, List } from './components/examples';
+import { FormTemplate } from './components/templates/FormTemplate';
+import { BookPage } from './components/pages/BookPage/BookPage';
+import { HomePage } from './components/pages/HomePage/HomePage';
+import { FavoritesPage } from './components/pages/FavoritesPage/FavoritesPage';
+
+//import { Button } from './components/atoms/Button';
+//import { ReactComponent as FavoriteIcon } from './assets/icons/favoritesIcon.svg';
+//import { ColorService } from './services';
+// import { Input } from './components/atoms/Input';
+// import { Tabs } from './components/atoms/Tabs';
+// import { Title } from './components/atoms/Title';
+//import { Header } from './components/molecules/Header';
 
 function App() {
-  const onClick = () => {
-    console.log('click');
+  const onChange = async (event: ChangeEvent<HTMLInputElement>, field: string) => {
+    console.log({ event, field });
+    setName(event.target.value);
   };
 
-  const users = [
-    { id: 0, name: 'Lucas' },
-    { id: 1, name: 'William' },
-  ];
+  const [name, setName] = useState('');
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
-        <ButtonExample text="Button example" onClick={onClick} />
-        <List list={users} />
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              // <div></div>
+              <FormTemplate title="NEW RELEASES BOOKS">
+                <HomePage />
+              </FormTemplate>
+            }>
+            {/* <Route
+              path=":postID"
+              element={
+                // <div></div>
+                <FormTemplate title="text">
+                  <PostPage />
+                </FormTemplate>
+              }></Route> */}
+          </Route>
+          <Route
+            path="/favorites"
+            element={
+              // <div></div>
+              <FormTemplate title="favorites">
+                <FavoritesPage />
+              </FormTemplate>
+            }>
+            {/* <Route
+              path=":postID"
+              element={
+                // <div></div>
+                <FormTemplate title="text">
+                  <PostPage />
+                </FormTemplate>
+              }></Route> */}
+          </Route>
+          <Route
+            path="/posts/:postID"
+            element={
+              // <div></div>
+              <FormTemplate title="text">
+                <BookPage />
+              </FormTemplate>
+            }></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
+
+// const FavoriteIconStyled = styled(FavoriteIcon)`
+//   path {
+//     fill: ${ColorService.SECONDARY};
+//   }
+// `;
 
 export default App;
