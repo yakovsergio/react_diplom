@@ -5,6 +5,8 @@ import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootSaga } from './saga';
 import booksSlice from './slices/booksSlice';
+import favoritesSlice from './slices/favoritesSlice';
+import bookSlice from './slices/bookSlice';
 //import authSlide from './slices/authSlice';
 
 // const sagaMiddleware = createSagaMiddleware();
@@ -20,6 +22,8 @@ export const store = configureStore({
   reducer: {
     //auth: authSlide,
     books: booksSlice,
+    bookSlice: bookSlice,
+    favoritesSlice: favoritesSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middleware),
 });

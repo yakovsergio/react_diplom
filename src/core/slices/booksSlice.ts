@@ -18,7 +18,7 @@ const initialState: IBookState = {
   orderingValue: '',
 };
 
-export const bookSlice = createSlice({
+export const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
@@ -34,11 +34,11 @@ export const bookSlice = createSlice({
     },
     toggleFavorite: (state, action) => {
       if (state.books) {
-        const newBooks = state?.books.results.map((book: IBook) => ({
+        const newBooks = state?.books.books.map((book: IBook) => ({
           ...book,
           isFavorite: book.isbn13 === action.payload ? !book.isFavorite : book.isFavorite,
         }));
-        state.books = { ...state.books, results: newBooks };
+        state.books = { ...state.books, books: newBooks };
       }
     },
     setSearchValue: (state, action) => {
@@ -60,7 +60,7 @@ export const bookSlice = createSlice({
 // };
 
 export const { addBooks, removeBooks, toggleFavorite, setOrderingValue, setSearchValue } =
-  bookSlice.actions;
+  booksSlice.actions;
 export const showBooks = ({
   books: { books, searchValue, orderingValue },
 }: {
@@ -69,7 +69,7 @@ export const showBooks = ({
 
 // export const showFavoritesBooks = (state: { books: IBookState }) =>
 //   state.books || state.books.filter((post: IBook) => book.isFavorite);
-export default bookSlice.reducer;
+export default booksSlice.reducer;
 
 // || st.posts.filter((post: IPost) => post.isFavorite)
 

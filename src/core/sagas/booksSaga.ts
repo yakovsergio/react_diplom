@@ -6,7 +6,9 @@ import { ACTIONS } from '../constants';
 
 //import { setProfile, setErrorActivation } from '../slices/authSlice';
 import { addBooks } from '../slices/booksSlice';
-import { IBooksInfo } from '../../types/books';
+import { setFavorites } from '../slices/favoritesSlice';
+import { setBook } from '../slices/bookSlice';
+import { IBooksInfo, IBook } from '../../types/books';
 import { BooksService } from '../../services/api/BookService';
 
 function* getNewBooksSaga() {
@@ -14,11 +16,50 @@ function* getNewBooksSaga() {
     /*const data: { data: IBooksInfo } = yield call(() => BooksService.getNewBooks());
 
     yield put(addBooks(data.data.results));*/
-    const res: { data: IBooksInfo } = yield call(() => BooksService.getNewBooks());
-    const books = res?.data as IBooksInfo;
+    const result: { data: IBooksInfo } = yield call(() => BooksService.getNewBooks());
+    const books = result?.data as IBooksInfo;
     yield put(addBooks(books));
   } catch (e) {
     console.log({ e });
+  }
+}
+
+function* getFavoritesSaga({ payload }: any) {
+  try {
+    const books: { books: IBook[] } = yield call(() => payload.favorites);
+
+    yield put(setFavorites(books));
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// function* getMyPostsSaga() {
+//   try {
+//     const data: { data: ITokens } = yield call(() => PostsService.getMyPosts());
+
+//     yield put(setMyPosts(data.data));
+//   } catch (e) {
+//     // console.log({ e });
+//     yield put(setErrorActivation('Error'));
+//   }
+// }
+
+function* getBookSaga({ payload }: any) {
+  try {
+    const result: { data: IBook } = yield call(() => BooksService.getBook(payload.isbn13));
+    const book = result?.data as IBook;
+    const ind = payload.favorites.findIndex((item: IBook) => {
+      return item.isbn13 == book.isbn13;
+    });
+    if (ind > -1) {
+      book.isFavorite = true;
+    } else {
+      book.isFavorite = false;
+    }
+    yield put(setBook(book));
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -36,4 +77,6 @@ function* getNewBooksSaga() {
 export function* booksSaga() {
   //yield takeEvery(ACTIONS.SEND_POST, sendPostSaga);
   yield takeEvery(ACTIONS.GET_NEW_BOOKS, getNewBooksSaga);
+  yield takeEvery(ACTIONS.GET_FAVORITES, getFavoritesSaga);
+  yield takeEvery(ACTIONS.GET_BOOK, getBookSaga);
 }

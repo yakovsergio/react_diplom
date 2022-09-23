@@ -5,7 +5,16 @@ class BooksAPIService extends BaseService {
     return this.get('new');
   }
 
- /* public async sendPost({ image, text, title, lesson_num }: IBookSendRequest) {
+  /* public async getFavoriteBooks() {
+    return this.get('favorites');
+  }*/
+
+  public async getBook(isbn13: string) {
+    console.log('getbook');
+    return this.get(`books/${isbn13}`);
+  }
+
+  /* public async sendPost({ image, text, title, lesson_num }: IBookSendRequest) {
     const { headers } = await this.getHeaders();
     if (this.credentials?.URL) {
       const { URL } = this.credentials;

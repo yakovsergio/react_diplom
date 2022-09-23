@@ -18,12 +18,12 @@ import { FavoritesPage } from './components/pages/FavoritesPage/FavoritesPage';
 //import { Header } from './components/molecules/Header';
 
 function App() {
-  const onChange = async (event: ChangeEvent<HTMLInputElement>, field: string) => {
+  /*const onChange = async (event: ChangeEvent<HTMLInputElement>, field: string) => {
     console.log({ event, field });
     setName(event.target.value);
-  };
+  };*/
 
-  const [name, setName] = useState('');
+  //const [name, setName] = useState('');
 
   return (
     <div className="App">
@@ -36,40 +36,26 @@ function App() {
               <FormTemplate title="NEW RELEASES BOOKS">
                 <HomePage />
               </FormTemplate>
-            }>
-            {/* <Route
-              path=":postID"
-              element={
-                // <div></div>
-                <FormTemplate title="text">
-                  <PostPage />
-                </FormTemplate>
-              }></Route> */}
-          </Route>
+            }></Route>
           <Route
             path="/favorites"
             element={
               // <div></div>
-              <FormTemplate title="favorites">
+              <FormTemplate title="FAVORITES">
                 <FavoritesPage />
               </FormTemplate>
-            }>
-            {/* <Route
-              path=":postID"
-              element={
-                // <div></div>
-                <FormTemplate title="text">
-                  <PostPage />
-                </FormTemplate>
-              }></Route> */}
-          </Route>
+            }></Route>
           <Route
-            path="/posts/:postID"
+            path="/books/:bookID"
             element={
               // <div></div>
-              <FormTemplate title="text">
-                <BookPage />
-              </FormTemplate>
+              <BookPage />
+            }></Route>
+          <Route
+            path="/new"
+            element={
+              // <div></div>
+              <FormTemplate title="NEW RELEASES BOOKS">{'<HomePage />'}</FormTemplate>
             }></Route>
         </Routes>
       </BrowserRouter>

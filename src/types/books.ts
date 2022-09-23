@@ -24,5 +24,5 @@ export interface IBooksInfo {
   error: string;
   total: number;
   page: number;
-  results: IBook[];
+  books: IBook[];
 }
